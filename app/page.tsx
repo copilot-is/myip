@@ -1,13 +1,15 @@
 import { headers } from 'next/headers';
-import { getClientIp } from 'request-ip';
 
 import maxmind from '@/lib/maxmind';
 
 export default async function Home() {
   const ua = headers().get('user-agent');
-  const ip = getClientIp({ headers: headers() } as {
-    headers: { [key: string]: any };
-  });
+  const ip = (
+    headers().get('cf-connecting-ip') ||
+    headers().get('x-real-ip') ||
+    headers().get('x-forwarded-for') ||
+    '127.0.0.1'
+  ).split(',')[0];
 
   const data = await maxmind.get(ip, ua);
 
