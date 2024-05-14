@@ -5,17 +5,6 @@ import maxmind, { AsnResponse, CityResponse } from 'maxmind';
 import { IPGeoLocationData } from '@/lib/types';
 import { isLocalhost } from '@/lib/utils';
 
-interface Names {
-  readonly de?: string;
-  readonly en: string;
-  readonly es?: string;
-  readonly fr?: string;
-  readonly ja?: string;
-  readonly 'pt-BR'?: string;
-  readonly ru?: string;
-  readonly 'zh-CN'?: string;
-}
-
 async function getHostnames(ip: string): Promise<string[]> {
   let hostnames: string[] = [];
 
@@ -29,9 +18,18 @@ async function getHostnames(ip: string): Promise<string[]> {
 }
 
 const get = async (
-  ip: string,
+  ip?: string | null,
   userAgent?: string | null,
-  lang: keyof Names = 'en'
+  lang: keyof {
+    readonly de?: string;
+    readonly en: string;
+    readonly es?: string;
+    readonly fr?: string;
+    readonly ja?: string;
+    readonly 'pt-BR'?: string;
+    readonly ru?: string;
+    readonly 'zh-CN'?: string;
+  } = 'en'
 ): Promise<IPGeoLocationData | null> => {
   if (!ip || isLocalhost(ip) || process.env.NODE_ENV === 'development') {
     ip = '8.8.8.8';

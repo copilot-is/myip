@@ -1,10 +1,14 @@
 import { headers } from 'next/headers';
+import { getClientIp } from 'request-ip';
+
 import maxmind from '@/lib/maxmind';
 
 export default async function Home() {
-  const header = headers();
-  const ua = header.get('User-Agent');
-  const ip = (header.get('x-forwarded-for') || '127.0.0.1').split(',')[0];
+  const ua = headers().get('user-agent');
+  const ip = getClientIp({ headers: headers() } as {
+    headers: { [key: string]: any };
+  });
+
   const data = await maxmind.get(ip, ua);
 
   return (
@@ -59,12 +63,14 @@ export default async function Home() {
                 </td>
                 <td className="px-2 py-1">{data.ip}</td>
               </tr>
-              <tr className="border-b-2 border-white last:border-b-0">
-                <td className="px-2 py-1 w-24 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  Hostname
-                </td>
-                <td className="px-2 py-1">{data.hostname}</td>
-              </tr>
+              {data.hostname && (
+                <tr className="border-b-2 border-white last:border-b-0">
+                  <td className="px-2 py-1 w-24 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    Hostname
+                  </td>
+                  <td className="px-2 py-1">{data.hostname}</td>
+                </tr>
+              )}
               <tr className="border-b-2 border-white last:border-b-0">
                 <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   City

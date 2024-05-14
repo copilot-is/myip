@@ -1,10 +1,11 @@
+import { getClientIp } from 'request-ip';
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 
 import maxmind from '@/lib/maxmind';
 
 export async function GET(req: NextRequest) {
-  const ip = (req.headers.get('x-forwarded-for') || '127.0.0.1').split(',')[0];
   const { ua } = userAgent(req);
+  const ip = getClientIp(req as { headers: { [key: string]: any } });
 
   const data = await maxmind.get(ip, ua);
 
