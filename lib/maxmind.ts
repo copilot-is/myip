@@ -1,4 +1,5 @@
 import dns from 'dns';
+import path from 'path';
 import maxmind, { AsnResponse, CityResponse } from 'maxmind';
 
 import { IPGeoLocationData } from '@/lib/types';
@@ -27,12 +28,12 @@ const get = async (
   const hostnames = await dns.promises.reverse(ip);
 
   const asn = await maxmind.open<AsnResponse>(
-    process.cwd() + '/app/db/GeoLite2-ASN.mmdb'
+    path.join(process.cwd(), '/db/GeoLite2-ASN.mmdb')
   );
   const asnResponse = asn.get(ip);
 
   const city = await maxmind.open<CityResponse>(
-    process.cwd() + '/app/db/GeoLite2-City.mmdb'
+    path.join(process.cwd(), '/db/GeoLite2-City.mmdb')
   );
   const cityResponse = city.get(ip);
 
