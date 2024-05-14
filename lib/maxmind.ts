@@ -16,6 +16,18 @@ interface Names {
   readonly 'zh-CN'?: string;
 }
 
+async function getHostnames(ip: string): Promise<string[]> {
+  let hostnames: string[] = [];
+
+  try {
+    hostnames = await dns.promises.reverse(ip);
+  } catch (error) {
+    console.error('Error occurred:', error);
+  }
+
+  return hostnames;
+}
+
 const get = async (
   ip: string,
   userAgent?: string | null,
@@ -25,7 +37,7 @@ const get = async (
     ip = '8.8.8.8';
   }
 
-  const hostnames = await dns.promises.reverse(ip);
+  const hostnames = await getHostnames(ip);
 
   const asn = await maxmind.open<AsnResponse>(
     path.join(process.cwd(), '/db/GeoLite2-ASN.mmdb')
