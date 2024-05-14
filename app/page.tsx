@@ -4,11 +4,7 @@ import maxmind from '@/lib/maxmind';
 export default async function Home() {
   const header = headers();
   const ua = header.get('User-Agent');
-  const ip = (
-    header.get('x-real-ip') ||
-    header.get('x-forwarded-for') ||
-    '127.0.0.1'
-  ).split(',')[0];
+  const ip = (header.get('x-forwarded-for') || '127.0.0.1').split(',')[0];
   const data = await maxmind.get(ip, ua);
 
   return (
