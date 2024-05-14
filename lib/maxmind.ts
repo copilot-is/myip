@@ -26,10 +26,14 @@ const get = async (
 
   const hostnames = await dns.promises.reverse(ip);
 
-  const asn = await maxmind.open<AsnResponse>('./db/GeoLite2-ASN.mmdb');
+  const asn = await maxmind.open<AsnResponse>(
+    process.cwd() + '/db/GeoLite2-ASN.mmdb'
+  );
   const asnResponse = asn.get(ip);
 
-  const city = await maxmind.open<CityResponse>('./db/GeoLite2-City.mmdb');
+  const city = await maxmind.open<CityResponse>(
+    process.cwd() + '/db/GeoLite2-City.mmdb'
+  );
   const cityResponse = city.get(ip);
 
   const data: IPGeoLocationData = {
