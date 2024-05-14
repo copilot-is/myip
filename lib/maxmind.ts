@@ -17,21 +17,47 @@ async function getHostnames(ip: string): Promise<string[]> {
   return hostnames;
 }
 
+function getNameByLang(
+  names?: {
+    de?: string;
+    en: string;
+    es?: string;
+    fr?: string;
+    ja?: string;
+    'pt-BR'?: string;
+    ru?: string;
+    'zh-CN'?: string;
+  },
+  lang?: string | null
+): string {
+  switch (lang?.toLowerCase()) {
+    case 'en':
+      return names?.en || '';
+    case 'de':
+      return names?.de || names?.en || '';
+    case 'es':
+      return names?.es || names?.en || '';
+    case 'fr':
+      return names?.fr || names?.en || '';
+    case 'ja':
+      return names?.ja || names?.en || '';
+    case 'pt-br':
+      return names?.['pt-BR'] || names?.en || '';
+    case 'ru':
+      return names?.ru || names?.en || '';
+    case 'zh-cn':
+      return names?.['zh-CN'] || names?.en || '';
+    default:
+      return names?.en || '';
+  }
+}
+
 const get = async (
   ip?: string | null,
   userAgent?: string | null,
-  lang: keyof {
-    readonly de?: string;
-    readonly en: string;
-    readonly es?: string;
-    readonly fr?: string;
-    readonly ja?: string;
-    readonly 'pt-BR'?: string;
-    readonly ru?: string;
-    readonly 'zh-CN'?: string;
-  } = 'en'
+  lang?: string | null
 ): Promise<IPGeoLocationData | null> => {
-  if (!ip || isLocalhost(ip) || process.env.NODE_ENV === 'development') {
+  if (!ip || isLocalhost(ip)) {
     ip = '8.8.8.8';
   }
 
@@ -50,18 +76,18 @@ const get = async (
   const data: IPGeoLocationData = {
     ip: ip,
     hostname: hostnames.join(', '),
-    city: cityResponse?.city?.names[lang],
+    city: getNameByLang(cityResponse?.city?.names, lang),
     postal: cityResponse?.postal?.code,
     regionCode: cityResponse?.subdivisions?.[0]?.iso_code ?? '',
-    regionName: cityResponse?.subdivisions?.[0]?.names[lang] ?? '',
+    regionName: getNameByLang(cityResponse?.subdivisions?.[0]?.names, lang),
     countryCode: cityResponse?.country?.iso_code,
-    countryName: cityResponse?.country?.names[lang],
+    countryName: getNameByLang(cityResponse?.country?.names, lang),
     continentCode: cityResponse?.continent?.code,
-    continentName: cityResponse?.continent?.names[lang],
+    continentName: getNameByLang(cityResponse?.continent?.names, lang),
     latitude: cityResponse?.location?.latitude,
     longitude: cityResponse?.location?.longitude,
     timezone: cityResponse?.location?.time_zone,
-    as: `AS${asnResponse?.autonomous_system_number} ${asnResponse?.autonomous_system_organization}`,
+    as: `AS${asnResponse?.autonomous_system_number} ${asnResponse?.autonomous_system_organization}`.trim(),
     userAgent: userAgent ?? '',
   };
 
