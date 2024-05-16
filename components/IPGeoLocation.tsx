@@ -3,6 +3,7 @@
 import React, { FormEvent, useState } from 'react';
 
 import { IPGeoLocationData } from '@/lib/types';
+import { IconLoader, IconSearch } from './Icons';
 
 interface IPGeoLocationProps {
   defaultValue?: IPGeoLocationData | null;
@@ -10,9 +11,11 @@ interface IPGeoLocationProps {
 
 export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
   const [data, setData] = useState(defaultValue);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
 
     const formData = new FormData(event.currentTarget);
     const query = formData.get('query');
@@ -20,6 +23,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
     const json = await response.json();
 
     setData(json);
+    setLoading(false);
   }
 
   return (
@@ -29,30 +33,28 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           <input
             type="search"
             name="query"
-            className="block px-3 py-2 pr-14 w-full z-20 text-lg text-gray-900 bg-gray-50 font-medium rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500 outline-none"
+            className="block px-3 py-2 pr-14 w-full z-20 text-lg text-gray-900 bg-gray-50 font-medium rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500 outline-none disabled:opacity-60"
             placeholder="Enter IP Address..."
             defaultValue={data?.ip}
+            disabled={isLoading}
             required
           />
           <button
             type="submit"
-            className="absolute top-0 end-0 px-3 py-2.5 h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            disabled={isLoading}
+            className="absolute top-0 end-0 px-3 py-2.5 h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60"
           >
-            <svg
-              className="w-5 h-5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-            <span className="sr-only">Search</span>
+            {isLoading ? (
+              <>
+                <IconLoader className="size-6 animate-spin" />
+                <span className="sr-only">Loading</span>
+              </>
+            ) : (
+              <>
+                <IconSearch className="size-5" />
+                <span className="sr-only">Search</span>
+              </>
+            )}
           </button>
         </div>
       </form>
