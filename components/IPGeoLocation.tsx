@@ -136,6 +136,10 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           </tr>
         </tbody>
       </table>
+      <div className="w-full rounded-lg mt-3 mb-6 p-4 text-slate-800 bg-slate-100 dark:bg-slate-900 dark:text-slate-400">
+        <p>https://myip.moe/json</p>
+        <p>https://myip.moe/json/8.8.8.8?lang=en</p>
+      </div>
     </>
   );
 }
