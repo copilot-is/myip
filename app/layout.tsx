@@ -31,7 +31,39 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
+      <body className="bg-white dark:bg-black">
+        <div className="min-h-screen md:max-w-md max-w-xs px-2 m-auto">
+          <header className="w-full flex gap-6 items-center justify-center py-12">
+            <a
+              id="link-ipv4"
+              href="/"
+              className="text-slate-700 text-5xl font-bold hover:text-slate-800 dark:text-slate-500 dark:hover:text-slate-400 hover:underline "
+            >
+              My IP
+            </a>
+          </header>
+          <main className="w-full flex flex-col items-center justify-center">
+            {children}
+            <div className="w-full rounded-lg mt-3 mb-6 p-4 text-slate-800 bg-slate-100 dark:bg-slate-900 dark:text-slate-400">
+              <p>https://myip.moe/json</p>
+              <p>https://myip.moe/json/8.8.8.8?lang=en</p>
+            </div>
+            <footer className="text-xs text-slate-600 mb-4">
+              <span className="mr-0.5">©</span>
+              <a href="https://myip.moe" className="hover:underline mr-1">
+                MyIP.moe.
+              </a>
+              <span>All Rights Reserved.</span>
+              <a
+                className="pl-1 hover:underline"
+                href="https://github.com/copilot-is/myip"
+              >
+                GitHub
+              </a>
+            </footer>
+          </main>
+        </div>
+      </body>
     </html>
   );
 }

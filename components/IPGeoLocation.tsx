@@ -29,11 +29,11 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
   return (
     <>
       <form className="w-full mb-6" onSubmit={onSubmit}>
-        <div className="relative w-full">
+        <div className="w-full flex justify-between">
           <input
             type="search"
             name="query"
-            className="block px-3 py-2 pr-14 w-full z-20 text-lg text-gray-900 bg-gray-50 font-medium rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500 outline-none disabled:opacity-60"
+            className="pl-3 pr-2 w-full h-12 text-lg text-slate-800 dark:text-slate-300 bg-slate-50 font-medium rounded-l-lg border border-r-0 border-slate-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-900 dark:border-slate-700 dark:placeholder-slate-400 dark:focus:border-blue-500 outline-none disabled:opacity-60"
             placeholder="Enter IP Address..."
             defaultValue={data?.ip}
             disabled={isLoading}
@@ -42,11 +42,11 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="absolute top-0 end-0 px-3 py-2.5 h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60"
+            className="px-4 h-12 text-white dark:text-slate-900 bg-blue-700 rounded-e-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-60"
           >
             {isLoading ? (
               <>
-                <IconLoader className="size-6 animate-spin" />
+                <IconLoader className="size-5 animate-spin" />
                 <span className="sr-only">Loading</span>
               </>
             ) : (
@@ -58,65 +58,81 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           </button>
         </div>
       </form>
-      <table className="w-full rounded-lg overflow-hidden">
+      <table className="w-full rounded-lg overflow-hidden dark:bg-slate-900">
         <tbody>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 w-28 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 w-28 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               IP
             </td>
-            <td className="px-2 py-1">{data?.ip}</td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.ip}
+            </td>
           </tr>
           {data?.hostname && (
-            <tr className="border-b-2 border-white last:border-b-0">
-              <td className="px-2 py-1 w-24 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+              <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
                 Hostname
               </td>
-              <td className="px-2 py-1">{data?.hostname}</td>
+              <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                {data?.hostname}
+              </td>
             </tr>
           )}
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               City
             </td>
-            <td className="px-2 py-1">{data?.city}</td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.city}
+            </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               Region
             </td>
-            <td className="px-2 py-1">{data?.regionName}</td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.regionName}
+            </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               Country
             </td>
-            <td className="px-2 py-1">{data?.countryName}</td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.countryName}
+            </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               AS
             </td>
-            <td className="px-2 py-1 break-words hyphens-auto">{data?.as}</td>
+            <td className="px-2 py-1 break-words hyphens-auto text-slate-800 dark:text-slate-400">
+              {data?.as}
+            </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               Location
             </td>
-            <td className="px-2 py-1">
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
               {[data?.latitude, data?.longitude].filter(Boolean).join(', ')}
             </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               Timezone
             </td>
-            <td className="px-2 py-1 text-gray-800">{data?.timezone}</td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.timezone}
+            </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0">
-            <td className="px-2 py-1 text-right text-gray-600 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="border-b-2 border-white dark:border-black last:border-b-0">
+            <td className="px-2 py-1 text-right text-slate-600 bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:border-r-2 dark:border-black">
               User Agent
             </td>
-            <td className="px-2 py-1 text-gray-800">{data?.userAgent}</td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.userAgent}
+            </td>
           </tr>
         </tbody>
       </table>
