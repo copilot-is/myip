@@ -3,6 +3,8 @@ import { headers } from 'next/headers';
 import maxmind from '@/lib/maxmind';
 import { IPGeoLocation } from '@/components/IPGeoLocation';
 
+export const maxDuration = 60;
+
 export default async function Home() {
   const ua = headers().get('user-agent');
   const ip = (

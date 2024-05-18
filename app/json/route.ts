@@ -2,6 +2,8 @@ import { NextRequest, NextResponse, userAgent } from 'next/server';
 
 import maxmind from '@/lib/maxmind';
 
+export const maxDuration = 60;
+
 export async function GET(req: NextRequest) {
   const { ua } = userAgent(req);
   const searchParams = req.nextUrl.searchParams;
