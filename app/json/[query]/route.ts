@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 
-import maxmind from '@/lib/maxmind';
+import { IPQuery } from '@/lib/ipquery';
 
 export const maxDuration = 60;
 
@@ -19,7 +19,7 @@ export async function GET(
     '127.0.0.1'
   ).split(',')[0];
 
-  const data = await maxmind.get(ip, ua, lang);
+  const data = await IPQuery(ip, ua, lang);
 
   return NextResponse.json(data);
 }

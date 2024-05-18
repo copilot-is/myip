@@ -1,3 +1,5 @@
+import dns from 'dns';
+
 export function isLocalhost(ip: string): Boolean {
   return Boolean(
     ip === 'localhost' ||
@@ -7,4 +9,16 @@ export function isLocalhost(ip: string): Boolean {
       // 127.0.0.0/8 are considered localhost for IPv4.
       ip.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
   );
+}
+
+export async function getHostnames(ip: string): Promise<string[]> {
+  let hostnames: string[] = [];
+
+  try {
+    hostnames = await dns.promises.reverse(ip);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return hostnames;
 }

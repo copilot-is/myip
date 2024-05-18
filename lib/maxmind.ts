@@ -1,21 +1,8 @@
-import dns from 'dns';
 import path from 'path';
 import maxmind, { AsnResponse, CityResponse } from 'maxmind';
 
 import { IPGeoLocationData } from '@/lib/types';
-import { isLocalhost } from '@/lib/utils';
-
-async function getHostnames(ip: string): Promise<string[]> {
-  let hostnames: string[] = [];
-
-  try {
-    hostnames = await dns.promises.reverse(ip);
-  } catch (error) {
-    console.error('Error occurred:', error);
-  }
-
-  return hostnames;
-}
+import { getHostnames } from '@/lib/utils';
 
 function getNameByLang(
   names?: {
@@ -53,14 +40,10 @@ function getNameByLang(
 }
 
 const get = async (
-  ip?: string | null,
-  userAgent?: string | null,
+  ip: string,
+  ua?: string | null,
   lang?: string | null
 ): Promise<IPGeoLocationData | null> => {
-  if (!ip || isLocalhost(ip)) {
-    ip = '8.8.8.8';
-  }
-
   const hostnames = await getHostnames(ip);
 
   const asn = await maxmind.open<AsnResponse>(
@@ -73,7 +56,7 @@ const get = async (
   );
   const cityResponse = city.get(ip);
 
-  const data: IPGeoLocationData = {
+  return {
     ip: ip,
     hostname: hostnames.join(', '),
     city: getNameByLang(cityResponse?.city?.names, lang),
@@ -88,10 +71,8 @@ const get = async (
     longitude: cityResponse?.location?.longitude,
     timezone: cityResponse?.location?.time_zone,
     as: `AS${asnResponse?.autonomous_system_number} ${asnResponse?.autonomous_system_organization}`.trim(),
-    userAgent: userAgent ?? '',
-  };
-
-  return data;
+    userAgent: ua ?? '',
+  } as IPGeoLocationData;
 };
 
 export default { get };

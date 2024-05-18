@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 
-import maxmind from '@/lib/maxmind';
+import { IPQuery } from '@/lib/ipquery';
 import { IPGeoLocation } from '@/components/IPGeoLocation';
 
 export const maxDuration = 60;
@@ -14,7 +14,7 @@ export default async function Home() {
     '127.0.0.1'
   ).split(',')[0];
 
-  const data = await maxmind.get(ip, ua);
+  const data = await IPQuery(ip, ua);
 
   return <IPGeoLocation defaultValue={data} />;
 }
