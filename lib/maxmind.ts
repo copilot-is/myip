@@ -75,7 +75,7 @@ const get = async (
         ? `AS${asnResponse?.autonomous_system_number} `
         : '') + (asnResponse?.autonomous_system_organization || '')
     ).trim(),
-    userAgent: ua ?? '',
+    userAgent: ua ?? ''
   } as IPGeoLocationData;
 };
 

@@ -13,7 +13,7 @@ const get = (ip: string): IPGeoLocationData => {
     ip,
     city: info.city_name,
     regionName: info.region_name,
-    countryName: info.country_name,
+    countryName: info.country_name
   } as IPGeoLocationData;
 };
 

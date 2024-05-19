@@ -1,6 +1,14 @@
 {
-  "extends": "next/core-web-vitals",
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "root": true,
+  "extends": [
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:tailwindcss/recommended"
+  ],
+  "plugins": ["tailwindcss"],
   "rules": {
+    "tailwindcss/no-custom-classname": "off",
     "import/no-anonymous-default-export": [
       "error",
       {
@@ -14,5 +22,16 @@
         "allowObject": true
       }
     ]
-  }
+  },
+  "settings": {
+    "tailwindcss": {
+      "config": "tailwind.config.ts"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser"
+    }
+  ]
 }

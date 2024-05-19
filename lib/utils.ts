@@ -17,7 +17,7 @@ export async function getHostnames(ip: string): Promise<string[]> {
   try {
     hostnames = await dns.promises.reverse(ip);
   } catch (error) {
-    console.error(error);
+    // ignore
   }
 
   return hostnames;
