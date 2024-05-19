@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-white dark:bg-black">
-        <div className="m-auto min-h-screen max-w-xs px-2 md:max-w-md">
+        <div className="m-auto min-h-screen max-w-xs px-2 md:max-w-lg">
           <header className="flex w-full items-center justify-center gap-6 py-12">
             <a
               id="link-ipv4"
