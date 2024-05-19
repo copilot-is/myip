@@ -1,3 +1,5 @@
+import isIP from 'validator/lib/isIP';
+
 import maxmind from '@/lib/maxmind';
 import qqwry from '@/lib/qqwry';
 import { IPGeoLocationData } from '@/lib/types';
@@ -15,7 +17,7 @@ export const IPQuery = async (
   let geo1, geo2;
 
   geo1 = await maxmind.get(ip, ua, lang);
-  if (geo1?.countryCode?.toUpperCase() === 'CN') {
+  if (isIP(ip, 4) && geo1?.countryCode?.toUpperCase() === 'CN') {
     geo2 = qqwry.get(ip);
   }
 
