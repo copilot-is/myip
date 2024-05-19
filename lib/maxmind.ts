@@ -70,7 +70,11 @@ const get = async (
     latitude: cityResponse?.location?.latitude,
     longitude: cityResponse?.location?.longitude,
     timezone: cityResponse?.location?.time_zone,
-    as: `AS${asnResponse?.autonomous_system_number} ${asnResponse?.autonomous_system_organization}`.trim(),
+    as: (
+      (asnResponse?.autonomous_system_number
+        ? `AS${asnResponse?.autonomous_system_number} `
+        : '') + (asnResponse?.autonomous_system_organization || '')
+    ).trim(),
     userAgent: ua ?? '',
   } as IPGeoLocationData;
 };

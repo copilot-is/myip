@@ -1,6 +1,8 @@
 'use client';
 
 import React, { FormEvent, useState } from 'react';
+import { toast } from 'sonner';
+import isIP from 'validator/lib/isIP';
 
 import { IPGeoLocationData } from '@/lib/types';
 import { IconLoader, IconSearch } from './Icons';
@@ -18,11 +20,17 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
-    const query = formData.get('query');
-    const response = await fetch(`/json/${query}`);
-    const json = await response.json();
+    const query = formData.get('query')?.toString();
 
-    setData(json);
+    if (query && isIP(query)) {
+      const response = await fetch(`/json/${query}`);
+      const json = await response.json();
+
+      setData(json);
+    } else {
+      toast.error('Invalid ip address.');
+    }
+
     setLoading(false);
   }
 
