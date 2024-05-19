@@ -5,8 +5,7 @@ import { toast } from 'sonner';
 import isIP from 'validator/lib/isIP';
 
 import { IPGeoLocationData } from '@/lib/types';
-
-import { IconLoader, IconSearch } from './Icons';
+import { IconLoader, IconSearch } from '@/components/Icons';
 
 interface IPGeoLocationProps {
   defaultValue?: IPGeoLocationData | null;
