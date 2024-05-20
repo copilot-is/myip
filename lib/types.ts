@@ -13,5 +13,6 @@ export interface IPGeoLocationData {
   longitude?: number;
   timezone?: string;
   as?: string;
+  isp?: string;
   userAgent?: string;
 }

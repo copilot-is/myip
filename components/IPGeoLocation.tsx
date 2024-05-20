@@ -96,6 +96,14 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           </tr>
           <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
             <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+              Postal
+            </td>
+            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+              {data?.postal}
+            </td>
+          </tr>
+          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
               Region
             </td>
             <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
@@ -110,14 +118,25 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               {data?.countryName}
             </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              AS
-            </td>
-            <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.as}
-            </td>
-          </tr>
+          {data?.isp ? (
+            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                ISP
+              </td>
+              <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
+                {data?.isp}
+              </td>
+            </tr>
+          ) : (
+            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                AS
+              </td>
+              <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
+                {data?.as}
+              </td>
+            </tr>
+          )}
           <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
             <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
               Location
