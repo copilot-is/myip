@@ -4,6 +4,19 @@ import maxmind, { AsnResponse, CityResponse } from 'maxmind';
 import { IPGeoLocationData } from '@/lib/types';
 import { getHostnames } from '@/lib/utils';
 
+const CHINA = {
+  names: {
+    de: 'China',
+    en: 'China',
+    es: 'China',
+    fr: 'Chine',
+    ja: '中国',
+    'pt-BR': 'China',
+    ru: 'Китай',
+    'zh-CN': '中国'
+  }
+};
+
 function getNameByLang(
   names?: {
     de?: string;
@@ -56,15 +69,26 @@ const get = async (
   );
   const cityResponse = city.get(ip);
 
+  let regionCode = cityResponse?.subdivisions?.[0]?.iso_code || '';
+  let regionName = getNameByLang(cityResponse?.subdivisions?.[0]?.names, lang);
+  let countryCode = cityResponse?.country?.iso_code || '';
+  let countryName = getNameByLang(cityResponse?.country?.names, lang);
+
+  if (['HK', 'MO', 'TW'].includes(countryCode.toUpperCase())) {
+    regionCode = countryCode;
+    regionName = countryName;
+    countryName = getNameByLang(CHINA.names, lang);
+  }
+
   return {
     ip: ip,
     hostname: hostnames.join(', '),
     city: getNameByLang(cityResponse?.city?.names, lang),
     postal: cityResponse?.postal?.code,
-    regionCode: cityResponse?.subdivisions?.[0]?.iso_code ?? '',
-    regionName: getNameByLang(cityResponse?.subdivisions?.[0]?.names, lang),
-    countryCode: cityResponse?.country?.iso_code,
-    countryName: getNameByLang(cityResponse?.country?.names, lang),
+    regionCode,
+    regionName,
+    countryCode,
+    countryName,
     continentCode: cityResponse?.continent?.code,
     continentName: getNameByLang(cityResponse?.continent?.names, lang),
     latitude: cityResponse?.location?.latitude,
