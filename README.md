@@ -6,7 +6,7 @@ My IP and Network Information, Using GeoLite2 Free and qqwry.dat database.
 
 - [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - GeoLite2 free geolocation data.
 - [qqwry.dat](https://github.com/metowolf/qqwry.dat) - qqwry.dat geolocation data.
-- [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb/tree/master/src/format) - qqwry.dat formatted from qqwry.ipdb
+- [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb) - qqwry.dat formatted from qqwry.ipdb.
 
 ## Getting Started
 
