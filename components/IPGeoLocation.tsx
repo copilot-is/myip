@@ -94,14 +94,16 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               {data?.city}
             </td>
           </tr>
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              Postal
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.postal}
-            </td>
-          </tr>
+          {data?.postal && (
+            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                Postal
+              </td>
+              <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                {data?.postal}
+              </td>
+            </tr>
+          )}
           <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
             <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
               Region
