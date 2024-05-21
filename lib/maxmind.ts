@@ -99,6 +99,7 @@ const get = async (
         ? `AS${asnResponse?.autonomous_system_number} `
         : '') + (asnResponse?.autonomous_system_organization || '')
     ).trim(),
+    isEU: cityResponse?.country?.is_in_european_union,
     userAgent: ua ?? ''
   } as IPGeoLocationData;
 };
