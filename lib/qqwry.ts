@@ -17,7 +17,7 @@ const get = (ip: string): IPGeoLocationData => {
     countryName: info.country_name,
     isp: info.isp_domain,
     longitude: info.longitude ? parseFloat(info.longitude) : undefined,
-    latitude: info.latitude ? parseFloat(info.latitude) : undefined,
+    latitude: info.latitude ? parseFloat(info.latitude) : undefined
   } as IPGeoLocationData;
 };
 
