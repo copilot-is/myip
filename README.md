@@ -29,6 +29,6 @@ pnpm update-db YOUR_MAXMIND_LICENSE_KEY
 
 You can deploy your MyIP to Vercel with one click:
 
-[Deploy with Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/copilot-is/myip)
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
