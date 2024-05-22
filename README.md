@@ -1,11 +1,11 @@
 # This is MyIP
 
-My IP and Network Information, Using GeoLite2 Free and qqwry.dat database.
+My IP and Network Information, Using the GeoLite2 Free and qqwry.dat Databases.
 
 ## Features
 
-- [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - GeoLite2 free geolocation data.
-- [qqwry.dat](https://github.com/metowolf/qqwry.dat) - qqwry.dat geolocation data.
+- [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - geolite2 free IP geolocation data.
+- [qqwry.dat](https://github.com/metowolf/qqwry.dat) - qqwry IP geolocation data.
 - [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb) - qqwry.dat formatted from qqwry.ipdb.
 
 ## Getting Started
