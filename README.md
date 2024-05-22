@@ -19,6 +19,12 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Update GeoLite2 and qqwry.dat
+
+```bash
+pnpm update-db YOUR_MAXMIND_LICENSE_KEY
+```
+
 ## Deploy on Vercel
 
 You can deploy your MyIP to Vercel with one click:

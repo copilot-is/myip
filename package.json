@@ -11,7 +11,8 @@
     "preview": "next build && next start",
     "type-check": "tsc --noEmit",
     "format:write": "prettier --write \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache",
+    "update-db": "node ./lib/download/qqwry.js && node ./lib/download/geolite2.js"
   },
   "dependencies": {
     "lib-qqwry": "^1.3.4",
@@ -30,14 +31,17 @@
     "@types/validator": "^13.11.10",
     "@typescript-eslint/parser": "^7.9.0",
     "autoprefixer": "^10.4.19",
+    "axios": "^1.7.2",
     "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.1.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-tailwindcss": "^3.15.2",
+    "fs-extra": "^11.2.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.3",
+    "tar": "^7.1.0",
     "typescript": "^5.4.5"
   }
 }
