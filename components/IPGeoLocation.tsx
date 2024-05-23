@@ -2,6 +2,7 @@
 
 import React, { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
+import isFQDN from 'validator/lib/isFQDN';
 import isIP from 'validator/lib/isIP';
 
 import { IPGeoLocationData } from '@/lib/types';
@@ -22,13 +23,13 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
     const formData = new FormData(event.currentTarget);
     const query = formData.get('query')?.toString();
 
-    if (query && isIP(query)) {
+    if (query && (isIP(query) || isFQDN(query))) {
       const response = await fetch(`/json/${query}`);
       const json = await response.json();
 
       setData(json);
     } else {
-      toast.error('Invalid ip address.');
+      toast.error('Invalid IP address or domain.');
     }
 
     setLoading(false);
@@ -42,7 +43,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
             type="search"
             name="query"
             className="h-12 w-full rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 pl-3 pr-2 text-lg font-medium text-slate-800 outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:placeholder:text-slate-400 dark:focus:border-blue-500"
-            placeholder="Enter IP Address..."
+            placeholder="Enter IP address or domain..."
             defaultValue={data?.ip}
             disabled={isLoading}
             required

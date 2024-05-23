@@ -22,3 +22,15 @@ export async function getHostnames(ip: string): Promise<string[]> {
 
   return hostnames;
 }
+
+export async function getDomainAddress(domain: string): Promise<string> {
+  let address: string = '';
+
+  try {
+    address = (await dns.promises.lookup(domain)).address;
+  } catch (error) {
+    // ignore
+  }
+
+  return address;
+}
