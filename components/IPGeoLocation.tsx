@@ -167,8 +167,8 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
         </tbody>
       </table>
       <div className="mb-6 mt-3 w-full rounded-lg bg-slate-100 p-4 text-slate-800 dark:bg-slate-900 dark:text-slate-400">
-        <p>https://myip.moe/json</p>
-        <p>https://myip.moe/json/8.8.8.8?lang=en</p>
+        <p>https://ipmy.dev/json</p>
+        <p>https://ipmy.dev/json/8.8.8.8?lang=en</p>
       </div>
     </>
   );

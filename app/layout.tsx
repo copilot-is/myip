@@ -5,7 +5,7 @@ import { Toaster } from 'sonner';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'My IP and Network Information - myip.moe',
+  title: 'My IP and Network Information - ipmy.dev',
   description: 'My IP and Network Information',
   icons: {
     icon: '/favicon.png',
@@ -48,8 +48,8 @@ export default function RootLayout({
             {children}
             <footer className="mb-4 text-xs text-slate-600">
               <span className="mr-0.5">©</span>
-              <a href="https://myip.moe" className="mr-1 hover:underline">
-                MyIP.moe.
+              <a href="https://ipmy.dev" className="mr-1 hover:underline">
+                ipmy.dev.
               </a>
               <span>All Rights Reserved.</span>
               <a
