@@ -53,6 +53,8 @@ export default function RootLayout({
               </a>
               <span>All Rights Reserved.</span>
               <a
+                target="_blank"
+                rel="noopener noreferrer"
                 className="pl-1 hover:underline"
                 href="https://github.com/copilot-is/myip"
               >
