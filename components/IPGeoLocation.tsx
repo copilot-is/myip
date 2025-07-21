@@ -36,7 +36,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
   }
 
   return (
-    <>
+    <div className="m-auto min-h-screen w-full px-3 sm:max-w-md">
       <form className="mb-6 w-full" onSubmit={onSubmit}>
         <div className="flex w-full justify-between">
           <input
@@ -170,6 +170,6 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
         <p>https://ipmy.dev/json</p>
         <p>https://ipmy.dev/json/8.8.8.8?lang=en</p>
       </div>
-    </>
+    </div>
   );
 }

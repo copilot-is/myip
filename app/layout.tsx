@@ -34,9 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-white dark:bg-black">
-        <div className="m-auto min-h-screen max-w-xs px-2 md:max-w-lg">
-          {children}
-        </div>
+        {children}
         <Toaster position="top-center" richColors />
         <Analytics />
       </body>
