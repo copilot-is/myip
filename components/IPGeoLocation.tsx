@@ -92,7 +92,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               City
             </td>
             <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.city}
+              {data?.city_name}
             </td>
           </tr>
           {data?.postal && (
@@ -110,7 +110,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               Region
             </td>
             <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.regionName}
+              {data?.region_name}
             </td>
           </tr>
           <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
@@ -118,7 +118,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               Country
             </td>
             <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.countryName}
+              {data?.country_name}
             </td>
           </tr>
           {data?.isp ? (
@@ -161,7 +161,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               User Agent
             </td>
             <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.userAgent}
+              {data?.user_agent}
             </td>
           </tr>
         </tbody>

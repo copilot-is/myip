@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 
 import { IPQuery } from '@/lib/ipquery';
@@ -6,12 +7,13 @@ export const maxDuration = 60;
 
 export async function GET(req: NextRequest) {
   const { ua } = userAgent(req);
+  const heads = await headers();
   const searchParams = req.nextUrl.searchParams;
-  const lang = searchParams.get('lang');
+  const lang = searchParams.get('lang') || undefined;
   const ip = (
-    req.headers.get('cf-connecting-ip') ||
-    req.headers.get('x-real-ip') ||
-    req.headers.get('x-forwarded-for') ||
+    heads.get('cf-connecting-ip') ||
+    heads.get('x-real-ip') ||
+    heads.get('x-forwarded-for') ||
     '127.0.0.1'
   ).split(',')[0];
 

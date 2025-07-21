@@ -54,9 +54,9 @@ function getNameByLang(
 
 const get = async (
   ip: string,
-  ua?: string | null,
-  lang?: string | null
-): Promise<IPGeoLocationData | null> => {
+  ua?: string,
+  lang?: string
+): Promise<IPGeoLocationData | undefined> => {
   const hostnames = await getHostnames(ip);
 
   const asn = await maxmind.open<AsnResponse>(
@@ -81,16 +81,16 @@ const get = async (
   }
 
   return {
-    ip: ip,
+    ip,
     hostname: hostnames.join(', '),
-    city: getNameByLang(cityResponse?.city?.names, lang),
+    city_name: getNameByLang(cityResponse?.city?.names, lang),
     postal: cityResponse?.postal?.code,
-    regionCode,
-    regionName,
-    countryCode,
-    countryName,
-    continentCode: cityResponse?.continent?.code,
-    continentName: getNameByLang(cityResponse?.continent?.names, lang),
+    region_code: regionCode,
+    region_name: regionName,
+    country_code: countryCode,
+    country_name: countryName,
+    continent_code: cityResponse?.continent?.code,
+    continent_name: getNameByLang(cityResponse?.continent?.names, lang),
     latitude: cityResponse?.location?.latitude,
     longitude: cityResponse?.location?.longitude,
     timezone: cityResponse?.location?.time_zone,
@@ -100,8 +100,8 @@ const get = async (
         : '') + (asnResponse?.autonomous_system_organization || '')
     ).trim(),
     isEU: cityResponse?.country?.is_in_european_union,
-    userAgent: ua ?? ''
-  } as IPGeoLocationData;
+    user_agent: ua
+  };
 };
 
 export default { get };

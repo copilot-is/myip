@@ -6,11 +6,12 @@ import { IPGeoLocation } from '@/components/IPGeoLocation';
 export const maxDuration = 60;
 
 export default async function Home() {
-  const ua = headers().get('user-agent');
+  const heads = await headers();
+  const ua = heads.get('user-agent') || undefined;
   const ip = (
-    headers().get('cf-connecting-ip') ||
-    headers().get('x-real-ip') ||
-    headers().get('x-forwarded-for') ||
+    heads.get('cf-connecting-ip') ||
+    heads.get('x-real-ip') ||
+    heads.get('x-forwarded-for') ||
     '127.0.0.1'
   ).split(',')[0];
 

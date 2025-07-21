@@ -7,12 +7,12 @@ import { IPGeoLocationData } from '@/lib/types';
 import { getDomainAddress, isLocalhost } from '@/lib/utils';
 
 export const IPQuery = async (
-  query?: string | null,
-  ua?: string | null,
-  lang?: string | null
-): Promise<IPGeoLocationData | null> => {
+  query?: string,
+  ua?: string,
+  lang?: string
+): Promise<IPGeoLocationData | undefined> => {
   if (!query || (!isIP(query) && !isFQDN(query))) {
-    return null;
+    return;
   }
 
   if (isLocalhost(query)) {
@@ -26,12 +26,10 @@ export const IPQuery = async (
     }
   }
 
-  let geo1, geo2;
-
-  geo1 = await maxmind.get(query, ua, lang);
-  if (isIP(query, 4) && geo1?.countryCode?.toUpperCase() === 'CN') {
-    geo2 = qqwry.get(query);
+  const geolocation = qqwry.get(query, ua);
+  if (geolocation && geolocation.country_code?.toUpperCase() === 'CN') {
+    return geolocation;
+  } else {
+    return await maxmind.get(query, ua, lang);
   }
-
-  return { ...geo1, ...geo2 } as IPGeoLocationData;
 };

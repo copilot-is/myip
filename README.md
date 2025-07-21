@@ -1,12 +1,11 @@
 # This is MyIP
 
-My IP and Network Information, Using the GeoLite2 Free and qqwry.dat Databases.
+My IP and Network Information, Using the GeoLite2 Free and qqwry Databases.
 
 ## Features
 
 - [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - geolite2 free IP geolocation data.
-- [qqwry.dat](https://github.com/metowolf/qqwry.dat) - qqwry IP geolocation data.
-- [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb) - qqwry.dat formatted from qqwry.ipdb.
+- [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb) - qqwry IP geolocation data.
 
 ## Getting Started
 
@@ -19,7 +18,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Update GeoLite2 and qqwry.dat
+## Update GeoLite2 and qqwry.ipdb
 
 ```bash
 pnpm update-db YOUR_MAXMIND_LICENSE_KEY
