@@ -36,7 +36,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
   }
 
   return (
-    <div className="m-auto min-h-screen w-full px-3 sm:max-w-lg">
+    <div className="m-auto w-full px-3 sm:max-w-lg">
       <form className="mb-6 w-full" onSubmit={onSubmit}>
         <div className="flex w-full justify-between">
           <input

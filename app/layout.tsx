@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-white dark:bg-black">
+      <body className="min-h-screen bg-white dark:bg-black">
         {children}
         <Toaster position="top-center" richColors />
         <Analytics />
