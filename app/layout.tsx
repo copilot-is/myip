@@ -35,33 +35,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="bg-white dark:bg-black">
         <div className="m-auto min-h-screen max-w-xs px-2 md:max-w-lg">
-          <header className="flex w-full items-center justify-center gap-6 py-12">
-            <a
-              id="link-ipv4"
-              href="/"
-              className="text-5xl font-bold text-slate-700 hover:text-slate-800 hover:underline dark:text-slate-500 dark:hover:text-slate-400 "
-            >
-              My IP
-            </a>
-          </header>
-          <main className="flex w-full flex-col items-center justify-center">
-            {children}
-            <footer className="mb-4 text-xs text-slate-600">
-              <span className="mr-0.5">©</span>
-              <a href="https://ipmy.dev" className="mr-1 hover:underline">
-                ipmy.dev.
-              </a>
-              <span>All Rights Reserved.</span>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pl-1 hover:underline"
-                href="https://github.com/copilot-is/myip"
-              >
-                GitHub
-              </a>
-            </footer>
-          </main>
+          {children}
         </div>
         <Toaster position="top-center" richColors />
         <Analytics />

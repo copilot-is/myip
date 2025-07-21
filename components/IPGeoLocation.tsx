@@ -74,7 +74,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               IP
             </td>
             <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.ip}
+              <div className="break-all">{data?.ip}</div>
             </td>
           </tr>
           {data?.hostname && (
