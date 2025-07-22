@@ -42,7 +42,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           <input
             type="search"
             name="query"
-            className="h-12 w-full rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 pl-3 pr-2 text-lg font-medium text-slate-800 outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:placeholder:text-slate-400 dark:focus:border-blue-500"
+            className="h-12 w-full rounded-l-lg rounded-r-none border border-r-0 border-slate-300 bg-slate-50 pl-3 pr-2 text-lg font-medium text-slate-800 outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:placeholder:text-slate-400 dark:focus:border-blue-500"
             placeholder="Enter IP address or domain..."
             defaultValue={data?.ip}
             disabled={isLoading}
@@ -51,7 +51,7 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="h-12 rounded-e-lg bg-blue-700 px-4 text-white hover:bg-blue-800 disabled:opacity-60 dark:bg-blue-600 dark:text-slate-900 dark:hover:bg-blue-700"
+            className="h-12 rounded-r-lg bg-blue-700 px-4 text-white hover:bg-blue-800 disabled:opacity-60 dark:bg-blue-600 dark:text-slate-900 dark:hover:bg-blue-700"
           >
             {isLoading ? (
               <>
