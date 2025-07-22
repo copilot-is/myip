@@ -1,6 +1,6 @@
 # This is MyIP
 
-My IP and Network Information, Using the GeoLite2 Free and qqwry Databases.
+My IP and Network Information, Using the GeoLite2 Free and qqwry database.
 
 ## Features
 
@@ -18,10 +18,12 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Update GeoLite2 and qqwry.ipdb
+## Update GeoLite2 and qqwry database
+
+Add `MAXMIND_LICENSE_KEY` to .env
 
 ```bash
-pnpm update-db YOUR_MAXMIND_LICENSE_KEY
+pnpm update-db
 ```
 
 ## Deploy on Vercel
