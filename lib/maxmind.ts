@@ -1,5 +1,6 @@
+import fs from 'fs';
 import path from 'path';
-import maxmind, { AsnResponse, CityResponse } from 'maxmind';
+import { AsnResponse, CityResponse, Reader } from 'maxmind';
 
 import { IPGeoLocationData } from '@/lib/types';
 import { getHostnames } from '@/lib/utils';
@@ -52,22 +53,24 @@ function getNameByLang(
   }
 }
 
+const asnBuffer = fs.readFileSync(
+  path.join(process.cwd(), '/db/GeoLite2-ASN.mmdb')
+);
+const asnLookup = new Reader<AsnResponse>(asnBuffer);
+
+const cityBuffer = fs.readFileSync(
+  path.join(process.cwd(), '/db/GeoLite2-City.mmdb')
+);
+const cityLookup = new Reader<CityResponse>(cityBuffer);
+
 const get = async (
   ip: string,
   ua?: string,
   lang?: string
 ): Promise<IPGeoLocationData | undefined> => {
   const hostnames = await getHostnames(ip);
-
-  const asn = await maxmind.open<AsnResponse>(
-    path.join(process.cwd(), '/db/GeoLite2-ASN.mmdb')
-  );
-  const asnResponse = asn.get(ip);
-
-  const city = await maxmind.open<CityResponse>(
-    path.join(process.cwd(), '/db/GeoLite2-City.mmdb')
-  );
-  const cityResponse = city.get(ip);
+  const asnResponse = asnLookup.get(ip);
+  const cityResponse = cityLookup.get(ip);
 
   let regionCode = cityResponse?.subdivisions?.[0]?.iso_code || '';
   let regionName = getNameByLang(cityResponse?.subdivisions?.[0]?.names, lang);

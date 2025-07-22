@@ -1,4 +1,4 @@
-# This is MyIP
+# MyIP
 
 My IP and Network Information, Using the GeoLite2 Free and qqwry database.
 

@@ -4,8 +4,9 @@ import IPDB from 'ipdb';
 import { GEOLOCATION, ISP } from '@/lib/format';
 import { IPGeoLocationData } from '@/lib/types';
 
+const ipdb = new IPDB(path.join(process.cwd(), '/db/qqwry.ipdb'));
+
 const get = (ip: string, ua?: string): IPGeoLocationData | undefined => {
-  const ipdb = new IPDB(path.join(process.cwd(), '/db/qqwry.ipdb'));
   const res = ipdb.find(ip);
 
   if (res && res.data) {

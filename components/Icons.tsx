@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 
 function IconLoader({ ...props }: React.ComponentProps<'svg'>) {

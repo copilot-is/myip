@@ -11,18 +11,18 @@
     "preview": "next build && next start",
     "type-check": "tsc --noEmit",
     "format:write": "prettier --write \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
     "update-db": "node ./lib/download/qqwry.js && node ./lib/download/geolite2.js"
   },
   "dependencies": {
-    "@vercel/analytics": "^1.3.1",
+    "@vercel/analytics": "^1.5.0",
     "ipdb": "^0.3.3",
-    "maxmind": "^4.3.20",
+    "maxmind": "^4.3.28",
     "next": "^15.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sonner": "^1.5.0",
-    "validator": "^13.12.0"
+    "sonner": "^2.0.6",
+    "validator": "^13.15.15"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.0",
