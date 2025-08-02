@@ -12,11 +12,10 @@
     "type-check": "tsc --noEmit",
     "format:write": "prettier --write \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
-    "update-db": "node ./lib/download/qqwry.js && node ./lib/download/geolite2.js"
+    "update-db": "node ./lib/download/geocn.js && node ./lib/download/geolite2.js"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",
-    "ipdb": "^0.3.3",
     "maxmind": "^4.3.28",
     "next": "^15.4.2",
     "react": "^18.3.1",

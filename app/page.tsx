@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 
-import { IPQuery } from '@/lib/ipquery';
+import { IPLookup } from '@/lib/iplookup';
 import { IPGeoLocation } from '@/components/IPGeoLocation';
 
 export const maxDuration = 60;
@@ -15,7 +15,7 @@ export default async function Home() {
     '127.0.0.1'
   ).split(',')[0];
 
-  const data = await IPQuery(ip, ua);
+  const data = await IPLookup(ip, ua);
 
   return (
     <>

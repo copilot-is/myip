@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 
-import { IPQuery } from '@/lib/ipquery';
+import { IPLookup } from '@/lib/iplookup';
 
 export const maxDuration = 60;
 
@@ -22,7 +22,7 @@ export async function GET(
     '127.0.0.1'
   ).split(',')[0];
 
-  const data = await IPQuery(query, ua, lang);
+  const data = await IPLookup(query, ua, lang);
 
   return NextResponse.json(data);
 }

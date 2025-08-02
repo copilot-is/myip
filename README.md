@@ -1,11 +1,11 @@
 # MyIP
 
-My IP and Network Information, Using the GeoLite2 Free and qqwry database.
+My IP and Network Information, Using the GeoLite2 Free and GeoCN database.
 
 ## Features
 
 - [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - geolite2 free IP geolocation data.
-- [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb) - qqwry IP geolocation data.
+- [GeoCN](https://github.com/ljxi/GeoCN) - China IP geolocation data.
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Update GeoLite2 and qqwry database
+## Update GeoLite2 and GeoCN database
 
 Add `MAXMIND_LICENSE_KEY` to .env
 
