@@ -128,7 +128,7 @@ export const IPLookup = async (
     data.country_name = getNameByLang(CHINA.names, lang);
   }
 
-  if (cityResponse?.country?.iso_code === 'CN') {
+  if (cityResponse?.country?.iso_code === 'CN' && cnResponse) {
     data.city_code = cnResponse?.cityCode?.toString();
     data.city_name = cnResponse?.city?.replace('市', '') || '';
     data.region_code = cnResponse?.provinceCode?.toString();
