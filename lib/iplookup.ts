@@ -33,27 +33,27 @@ function getNameByLang(
     ru?: string;
     'zh-CN'?: string;
   },
-  lang?: string | null
-): string {
+  lang?: string
+): string | undefined {
   switch (lang?.toLowerCase()) {
     case 'en':
-      return names?.en || '';
+      return names?.en;
     case 'de':
-      return names?.de || names?.en || '';
+      return names?.de || names?.en;
     case 'es':
-      return names?.es || names?.en || '';
+      return names?.es || names?.en;
     case 'fr':
-      return names?.fr || names?.en || '';
+      return names?.fr || names?.en;
     case 'ja':
-      return names?.ja || names?.en || '';
+      return names?.ja || names?.en;
     case 'pt-br':
-      return names?.['pt-BR'] || names?.en || '';
+      return names?.['pt-BR'] || names?.en;
     case 'ru':
-      return names?.ru || names?.en || '';
+      return names?.ru || names?.en;
     case 'zh-cn':
-      return names?.['zh-CN'] || names?.en || '';
+      return names?.['zh-CN'] || names?.en;
     default:
-      return names?.en || '';
+      return names?.en;
   }
 }
 
