@@ -1,13 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import { AsnResponse, CityResponse, Reader } from 'maxmind';
 import isFQDN from 'validator/lib/isFQDN';
 import isIP from 'validator/lib/isIP';
 
-import { ChinaResponse, IPGeoLocationData } from '@/lib/types';
+import { getLookups } from '@/lib/db';
+import { GEOLOCATION } from '@/lib/format';
+import { IPGeoLocationData } from '@/lib/types';
 import { getDomainAddress, getHostnames, isLocalhost } from '@/lib/utils';
-
-import { GEOLOCATION } from './format';
 
 const CHINA = {
   names: {
@@ -57,18 +54,6 @@ function getNameByLang(
   }
 }
 
-const asnBuffer = fs.readFileSync(
-  path.join(process.cwd(), '/db/GeoLite2-ASN.mmdb')
-);
-const cityBuffer = fs.readFileSync(
-  path.join(process.cwd(), '/db/GeoLite2-City.mmdb')
-);
-const cnBuffer = fs.readFileSync(path.join(process.cwd(), '/db/GeoCN.mmdb'));
-
-const asnLookup = new Reader<AsnResponse>(asnBuffer);
-const cityLookup = new Reader<CityResponse>(cityBuffer);
-const cnLookup = new Reader<ChinaResponse>(cnBuffer);
-
 export const IPLookup = async (
   query: string,
   ua?: string,
@@ -90,6 +75,7 @@ export const IPLookup = async (
     }
   }
 
+  const { asnLookup, cityLookup, cnLookup } = getLookups();
   const hostnames = await getHostnames(ip);
   const asnResponse = asnLookup.get(ip);
   const cityResponse = cityLookup.get(ip);
