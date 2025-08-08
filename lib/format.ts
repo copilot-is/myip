@@ -65,7 +65,7 @@ export const GEOLOCATION: {
   },
   吉林: {
     长春: { longitude: 125.32, latitude: 43.9, postal: '130000' },
-    吉林市: { longitude: 126.55, latitude: 43.83, postal: '132000' },
+    吉林: { longitude: 126.55, latitude: 43.83, postal: '132000' },
     四平: { longitude: 124.35, latitude: 43.17, postal: '136000' },
     辽源: { longitude: 125.13, latitude: 42.88, postal: '136200' },
     通化: { longitude: 125.93, latitude: 41.73, postal: '134000' },

@@ -93,6 +93,11 @@ export const IPLookup = async (
     country_name: getNameByLang(cityResponse?.country?.names, lang),
     continent_code: cityResponse?.continent?.code,
     continent_name: getNameByLang(cityResponse?.continent?.names, lang),
+    registered_region_code: cityResponse?.registered_country?.iso_code,
+    registered_region_name: getNameByLang(
+      cityResponse?.registered_country?.names,
+      lang
+    ),
     asn: asnResponse?.autonomous_system_number,
     org: asnResponse?.autonomous_system_organization,
     as: (
@@ -112,9 +117,19 @@ export const IPLookup = async (
     data.region_name = getNameByLang(cityResponse?.country?.names, lang);
     data.country_code = 'CN';
     data.country_name = getNameByLang(CHINA.names, lang);
+    data.registered_region_name =
+      lang === 'zh-cn'
+        ? `${getNameByLang(CHINA.names, lang)}${getNameByLang(cityResponse?.registered_country?.names, lang)}`
+        : `${getNameByLang(cityResponse?.registered_country?.names, lang)}, ${getNameByLang(CHINA.names, lang)}`;
   }
 
-  if (cityResponse?.country?.iso_code === 'CN' && cnResponse) {
+  if (
+    cityResponse?.country?.iso_code === 'CN' &&
+    cityResponse?.registered_country?.iso_code === 'CN' &&
+    cnResponse
+  ) {
+    data.district_code = cnResponse.districtsCode?.toString();
+    data.district_name = cnResponse.districts;
     data.city_code = cnResponse?.cityCode?.toString();
     data.city_name = cnResponse?.city?.replace('市', '') || '';
     data.region_code = cnResponse?.provinceCode?.toString();
@@ -123,9 +138,9 @@ export const IPLookup = async (
     data.isp = cnResponse?.isp;
 
     const geolocation = GEOLOCATION[data.region_name]?.[data.city_name];
-    data.postal = geolocation.postal;
-    data.latitude = geolocation.latitude;
-    data.longitude = geolocation.longitude;
+    data.postal = geolocation?.postal;
+    data.latitude = geolocation?.latitude;
+    data.longitude = geolocation?.longitude;
   }
 
   return data;

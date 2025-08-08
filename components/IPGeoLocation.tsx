@@ -87,14 +87,16 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               </td>
             </tr>
           )}
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              City
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.city_name}
-            </td>
-          </tr>
+          {data?.city_name && (
+            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                City
+              </td>
+              <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                {data?.city_name}
+              </td>
+            </tr>
+          )}
           {data?.postal && (
             <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
               <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
@@ -140,14 +142,16 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
               </td>
             </tr>
           )}
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              Location
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {[data?.latitude, data?.longitude].filter(Boolean).join(', ')}
-            </td>
-          </tr>
+          {data?.latitude && data?.longitude && (
+            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                Location
+              </td>
+              <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                {[data?.latitude, data?.longitude].filter(Boolean).join(', ')}
+              </td>
+            </tr>
+          )}
           <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
             <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
               Timezone

@@ -2,6 +2,8 @@ export interface IPGeoLocationData {
   ip: string;
   hostname?: string;
   postal?: string;
+  district_code?: string;
+  district_name?: string;
   city_code?: string;
   city_name?: string;
   region_code?: string;
@@ -10,6 +12,8 @@ export interface IPGeoLocationData {
   country_name?: string;
   continent_code?: string;
   continent_name?: string;
+  registered_region_code?: string;
+  registered_region_name?: string;
   latitude?: number;
   longitude?: number;
   timezone?: string;
