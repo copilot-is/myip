@@ -1,146 +1,65 @@
-import isFQDN from 'validator/lib/isFQDN';
-import isIP from 'validator/lib/isIP';
-
-import { getLookups } from '@/lib/db';
-import { GEOLOCATION } from '@/lib/format';
+import { baiduQuery } from '@/lib/baidu';
+import { geocnQuery } from '@/lib/geocn';
+import { maxmindQuery } from '@/lib/maxmind';
+import { meituanQuery } from '@/lib/meituan';
+import { qqwryQuery } from '@/lib/qqwry';
 import { IPGeoLocationData } from '@/lib/types';
-import { getDomainAddress, getHostnames, isLocalhost } from '@/lib/utils';
-
-const CHINA = {
-  names: {
-    de: 'China',
-    en: 'China',
-    es: 'China',
-    fr: 'Chine',
-    ja: '中国',
-    'pt-BR': 'China',
-    ru: 'Китай',
-    'zh-CN': '中国'
-  }
-};
-
-function getNameByLang(
-  names?: {
-    de?: string;
-    en: string;
-    es?: string;
-    fr?: string;
-    ja?: string;
-    'pt-BR'?: string;
-    ru?: string;
-    'zh-CN'?: string;
-  },
-  lang?: string
-): string | undefined {
-  switch (lang?.toLowerCase()) {
-    case 'en':
-      return names?.en;
-    case 'de':
-      return names?.de || names?.en;
-    case 'es':
-      return names?.es || names?.en;
-    case 'fr':
-      return names?.fr || names?.en;
-    case 'ja':
-      return names?.ja || names?.en;
-    case 'pt-br':
-      return names?.['pt-BR'] || names?.en;
-    case 'ru':
-      return names?.ru || names?.en;
-    case 'zh-cn':
-      return names?.['zh-CN'] || names?.en;
-    default:
-      return names?.en;
-  }
-}
+import { getHostnames, isLocalhost } from '@/lib/utils';
 
 export const IPLookup = async (
-  query: string,
+  ip: string,
   ua?: string,
-  lang?: string
+  lang?: string,
+  source = 'geocn' as IPGeoLocationData['source']
 ): Promise<IPGeoLocationData | undefined> => {
-  if (!query || (!isIP(query) && !isFQDN(query))) {
-    return;
+  let ipAddress = ip;
+  if (isLocalhost(ip)) {
+    ipAddress = '8.8.8.8';
   }
 
-  let ip = query;
-  if (isLocalhost(query)) {
-    ip = '8.8.8.8';
-  }
+  let data = maxmindQuery(ipAddress, ua, lang);
 
-  if (isFQDN(query)) {
-    const address = await getDomainAddress(query);
-    if (address) {
-      ip = address;
+  if (data) {
+    const hostnames = await getHostnames(ip);
+    if (hostnames.length) {
+      data.hostname = hostnames.join(', ');
     }
-  }
 
-  const { asnLookup, cityLookup, cnLookup } = getLookups();
-  const hostnames = await getHostnames(ip);
-  const asnResponse = asnLookup.get(ip);
-  const cityResponse = cityLookup.get(ip);
-  const cnResponse = cnLookup.get(ip);
+    if (
+      source === 'geocn' &&
+      data.country_code === 'CN' &&
+      data.registered_region_code === 'CN'
+    ) {
+      const geocnData = geocnQuery(ipAddress, lang);
+      if (geocnData) {
+        data = { ...data, ...geocnData };
+      }
+    }
 
-  const data: IPGeoLocationData = {
-    ip,
-    hostname: hostnames.join(', '),
-    postal: cityResponse?.postal?.code,
-    city_code: cityResponse?.city?.geoname_id?.toString(),
-    city_name: getNameByLang(cityResponse?.city?.names, lang),
-    region_code: cityResponse?.subdivisions?.[0]?.iso_code,
-    region_name: getNameByLang(cityResponse?.subdivisions?.[0]?.names, lang),
-    country_code: cityResponse?.country?.iso_code,
-    country_name: getNameByLang(cityResponse?.country?.names, lang),
-    continent_code: cityResponse?.continent?.code,
-    continent_name: getNameByLang(cityResponse?.continent?.names, lang),
-    registered_region_code: cityResponse?.registered_country?.iso_code,
-    registered_region_name: getNameByLang(
-      cityResponse?.registered_country?.names,
-      lang
-    ),
-    asn: asnResponse?.autonomous_system_number,
-    org: asnResponse?.autonomous_system_organization,
-    as: (
-      (asnResponse?.autonomous_system_number
-        ? `AS${asnResponse?.autonomous_system_number} `
-        : '') + (asnResponse?.autonomous_system_organization || '')
-    ).trim(),
-    latitude: cityResponse?.location?.latitude,
-    longitude: cityResponse?.location?.longitude,
-    timezone: cityResponse?.location?.time_zone,
-    isEU: cityResponse?.country?.is_in_european_union,
-    user_agent: ua
-  };
+    if (
+      source === 'qqwry' &&
+      data.country_code === 'CN' &&
+      data.registered_region_code === 'CN'
+    ) {
+      const qqwryData = qqwryQuery(ipAddress);
+      if (qqwryData) {
+        data = { ...data, ...qqwryData };
+      }
+    }
 
-  if (['HK', 'MO', 'TW'].includes(cityResponse?.country?.iso_code || '')) {
-    data.region_code = cityResponse?.country?.iso_code;
-    data.region_name = getNameByLang(cityResponse?.country?.names, lang);
-    data.country_code = 'CN';
-    data.country_name = getNameByLang(CHINA.names, lang);
-    data.registered_region_name =
-      lang === 'zh-cn'
-        ? `${getNameByLang(CHINA.names, lang)}${getNameByLang(cityResponse?.registered_country?.names, lang)}`
-        : `${getNameByLang(cityResponse?.registered_country?.names, lang)}, ${getNameByLang(CHINA.names, lang)}`;
-  }
+    if (source === 'baidu') {
+      const baiduData = await baiduQuery(ipAddress);
+      if (baiduData) {
+        data = { ...data, ...baiduData };
+      }
+    }
 
-  if (
-    cityResponse?.country?.iso_code === 'CN' &&
-    cityResponse?.registered_country?.iso_code === 'CN' &&
-    cnResponse
-  ) {
-    data.district_code = cnResponse.districtsCode?.toString();
-    data.district_name = cnResponse.districts;
-    data.city_code = cnResponse?.cityCode?.toString();
-    data.city_name = cnResponse?.city?.replace('市', '') || '';
-    data.region_code = cnResponse?.provinceCode?.toString();
-    data.region_name = cnResponse?.province?.replace('省', '') || '';
-    data.country_name = getNameByLang(CHINA.names, 'zh-cn');
-    data.isp = cnResponse?.isp;
-
-    const geolocation = GEOLOCATION[data.region_name]?.[data.city_name];
-    data.postal = geolocation?.postal;
-    data.latitude = geolocation?.latitude;
-    data.longitude = geolocation?.longitude;
+    if (source === 'meituan') {
+      const meituanData = await meituanQuery(ipAddress);
+      if (meituanData) {
+        data = { ...data, ...meituanData };
+      }
+    }
   }
 
   return data;

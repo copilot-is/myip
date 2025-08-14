@@ -34,3 +34,14 @@ export async function getDomainAddress(domain: string): Promise<string> {
 
   return address;
 }
+
+export function pruneObject<T extends Record<string, any>>(obj: T): T {
+  const prunedData = Object.fromEntries(
+    Object.entries(obj).filter(
+      ([_, value]) =>
+        value !== '' && value !== '0' && value !== null && value !== undefined
+    )
+  );
+
+  return prunedData as T;
+}

@@ -1,42 +1,54 @@
 import fs from 'fs';
 import path from 'path';
+import IPDB from 'ipdb';
 import { AsnResponse, CityResponse, Reader } from 'maxmind';
 
 import { ChinaResponse } from '@/lib/types';
 
 const lookupCache = {
-  asnLookup: null as Reader<AsnResponse> | null,
-  cityLookup: null as Reader<CityResponse> | null,
-  cnLookup: null as Reader<ChinaResponse> | null
+  asn: null as Reader<AsnResponse> | null,
+  city: null as Reader<CityResponse> | null,
+  geocn: null as Reader<ChinaResponse> | null,
+  qqwry: null as IPDB | null
 };
 
 export function initialize() {
-  if (!lookupCache.asnLookup) {
+  if (!lookupCache.asn) {
     const asnBuffer = fs.readFileSync(
       path.join(process.cwd(), '/db/GeoLite2-ASN.mmdb')
     );
-    lookupCache.asnLookup = new Reader<AsnResponse>(asnBuffer);
+    lookupCache.asn = new Reader<AsnResponse>(asnBuffer);
   }
-  if (!lookupCache.cityLookup) {
+  if (!lookupCache.city) {
     const cityBuffer = fs.readFileSync(
       path.join(process.cwd(), '/db/GeoLite2-City.mmdb')
     );
-    lookupCache.cityLookup = new Reader<CityResponse>(cityBuffer);
+    lookupCache.city = new Reader<CityResponse>(cityBuffer);
   }
-  if (!lookupCache.cnLookup) {
+  if (!lookupCache.geocn) {
     const cnBuffer = fs.readFileSync(
       path.join(process.cwd(), '/db/GeoCN.mmdb')
     );
-    lookupCache.cnLookup = new Reader<ChinaResponse>(cnBuffer);
+    lookupCache.geocn = new Reader<ChinaResponse>(cnBuffer);
+  }
+  if (!lookupCache.qqwry) {
+    lookupCache.qqwry = new IPDB(path.join(process.cwd(), '/db/qqwry.ipdb'));
   }
 }
 
 export function getLookups() {
+  if (
+    !lookupCache.asn ||
+    !lookupCache.city ||
+    !lookupCache.geocn ||
+    !lookupCache.qqwry
+  ) {
+    initialize();
+  }
   return {
-    asnLookup: lookupCache.asnLookup!,
-    cityLookup: lookupCache.cityLookup!,
-    cnLookup: lookupCache.cnLookup!
+    asn: lookupCache.asn!,
+    city: lookupCache.city!,
+    geocn: lookupCache.geocn!,
+    qqwry: lookupCache.qqwry!
   };
 }
-
-initialize();

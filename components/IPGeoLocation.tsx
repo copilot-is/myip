@@ -9,7 +9,7 @@ import { IPGeoLocationData } from '@/lib/types';
 import { IconLoader, IconSearch } from '@/components/Icons';
 
 interface IPGeoLocationProps {
-  defaultValue?: IPGeoLocationData | null;
+  defaultValue?: IPGeoLocationData;
 }
 
 export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
@@ -24,10 +24,14 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
     const query = formData.get('query')?.toString();
 
     if (query && (isIP(query) || isFQDN(query))) {
-      const response = await fetch(`/json/${query}`);
-      const json = await response.json();
+      const res = await fetch(`/json/${query}`);
+      const json = await res.json();
 
-      setData(json);
+      if (res.ok) {
+        setData(json);
+      } else {
+        toast.error(json.error);
+      }
     } else {
       toast.error('Invalid IP address or domain.');
     }
@@ -67,109 +71,117 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           </button>
         </div>
       </form>
-      <table className="w-full overflow-hidden rounded-lg dark:bg-slate-900">
-        <tbody>
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="w-28 bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              IP
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              <div className="break-all">{data?.ip}</div>
-            </td>
-          </tr>
-          {data?.hostname && (
+      {data && (
+        <table className="w-full overflow-hidden rounded-lg dark:bg-slate-900">
+          <tbody>
             <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-                Hostname
+              <td className="w-28 bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                IP
               </td>
               <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-                {data?.hostname}
+                <div className="break-all">{data.ip}</div>
               </td>
             </tr>
-          )}
-          {data?.city_name && (
+            {data.hostname && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  Hostname
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.hostname}
+                </td>
+              </tr>
+            )}
+            {data.city_name && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  City
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.city_name}
+                </td>
+              </tr>
+            )}
+            {data.postal && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  Postal
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.postal}
+                </td>
+              </tr>
+            )}
+            {data.region_name && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  Region
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.region_name}
+                </td>
+              </tr>
+            )}
+            {data.country_name && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  Country
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.country_name}
+                </td>
+              </tr>
+            )}
+            {data.isp ? (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  ISP
+                </td>
+                <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.isp}
+                </td>
+              </tr>
+            ) : (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  AS
+                </td>
+                <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.org}
+                </td>
+              </tr>
+            )}
+            {data.latitude && data.longitude && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  Location
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {[data.latitude, data.longitude].filter(Boolean).join(', ')}
+                </td>
+              </tr>
+            )}
+            {data.timezone && (
+              <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
+                <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
+                  Timezone
+                </td>
+                <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
+                  {data.timezone}
+                </td>
+              </tr>
+            )}
             <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
               <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-                City
+                User Agent
               </td>
               <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-                {data?.city_name}
+                {data.user_agent}
               </td>
             </tr>
-          )}
-          {data?.postal && (
-            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-                Postal
-              </td>
-              <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-                {data?.postal}
-              </td>
-            </tr>
-          )}
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              Region
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.region_name}
-            </td>
-          </tr>
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              Country
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.country_name}
-            </td>
-          </tr>
-          {data?.isp ? (
-            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-                ISP
-              </td>
-              <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
-                {data?.isp}
-              </td>
-            </tr>
-          ) : (
-            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-                AS
-              </td>
-              <td className="hyphens-auto break-words px-2 py-1 text-slate-800 dark:text-slate-400">
-                {data?.as}
-              </td>
-            </tr>
-          )}
-          {data?.latitude && data?.longitude && (
-            <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-              <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-                Location
-              </td>
-              <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-                {[data?.latitude, data?.longitude].filter(Boolean).join(', ')}
-              </td>
-            </tr>
-          )}
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              Timezone
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.timezone}
-            </td>
-          </tr>
-          <tr className="border-b-2 border-white last:border-b-0 dark:border-black">
-            <td className="bg-slate-50 px-2 py-1 text-right text-slate-600 dark:border-r-2 dark:border-black dark:bg-slate-800 dark:text-slate-500">
-              User Agent
-            </td>
-            <td className="px-2 py-1 text-slate-800 dark:text-slate-400">
-              {data?.user_agent}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      )}
       <div className="mb-6 mt-3 w-full rounded-lg bg-slate-100 p-4 text-slate-800 dark:bg-slate-900 dark:text-slate-400">
         <p>https://ipmy.dev/json</p>
         <p>https://ipmy.dev/json/8.8.8.8?lang=en</p>
