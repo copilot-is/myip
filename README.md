@@ -1,11 +1,12 @@
 # MyIP
 
-My IP and Network Information, Using the GeoLite2 Free and GeoCN database.
+My IP and Network Information, Using the GeoLite2 Free GeoCN and qqwry database.
 
 ## Features
 
-- [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - geolite2 free IP geolocation data.
+- [GeoLite2 Free](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) - MaxMind GeoLite2 Free IP geolocation data.
 - [GeoCN](https://github.com/ljxi/GeoCN) - China IP geolocation data.
+- [qqwry.ipdb](https://github.com/metowolf/qqwry.ipdb) - China IP geolocation data.
 
 ## Getting Started
 
@@ -18,13 +19,17 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Update GeoLite2 and GeoCN database
+## Download GeoLite2 Free GeoCN and qqwry database
 
-Add `MAXMIND_LICENSE_KEY` to .env
+Add `MAXMIND_LICENSE_KEY` to the .env file.
 
 ```bash
 pnpm update-db
 ```
+
+## Redis cache
+
+Implement Redis caching for Baidu and Meituan IP lookup services, and add `REDIS_URL` to the .env file.
 
 ## Deploy on Vercel
 
