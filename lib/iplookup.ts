@@ -1,5 +1,6 @@
 import { baiduQuery } from '@/lib/baidu';
 import { geocnQuery } from '@/lib/geocn';
+import { CHINA, getNameByLang } from '@/lib/lang';
 import { maxmindQuery } from '@/lib/maxmind';
 import { meituanQuery } from '@/lib/meituan';
 import { qqwryQuery } from '@/lib/qqwry';
@@ -28,7 +29,7 @@ export const IPLookup = async (
     if (
       source === 'geocn' &&
       data.country_code === 'CN' &&
-      data.registered_region_code === 'CN'
+      data.registered_country_code === 'CN'
     ) {
       const geocnData = geocnQuery(ipAddress, lang);
       if (geocnData) {
@@ -39,7 +40,7 @@ export const IPLookup = async (
     if (
       source === 'qqwry' &&
       data.country_code === 'CN' &&
-      data.registered_region_code === 'CN'
+      data.registered_country_code === 'CN'
     ) {
       const qqwryData = qqwryQuery(ipAddress);
       if (qqwryData) {
@@ -59,6 +60,10 @@ export const IPLookup = async (
       if (meituanData) {
         data = { ...data, ...meituanData };
       }
+    }
+
+    if (data.country_name === '中国' && lang?.toLowerCase() !== 'zh-cn') {
+      data.country_name = getNameByLang(CHINA.names, lang);
     }
   }
 

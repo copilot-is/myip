@@ -24,8 +24,8 @@ export const maxmindQuery = (
       country_name: getNameByLang(cityResponse?.country?.names, lang),
       continent_code: cityResponse?.continent?.code,
       continent_name: getNameByLang(cityResponse?.continent?.names, lang),
-      registered_region_code: cityResponse?.registered_country?.iso_code,
-      registered_region_name: getNameByLang(
+      registered_country_code: cityResponse?.registered_country?.iso_code,
+      registered_country_name: getNameByLang(
         cityResponse?.registered_country?.names,
         lang
       ),
@@ -46,10 +46,12 @@ export const maxmindQuery = (
     if (['HK', 'MO', 'TW'].includes(cityResponse?.country?.iso_code || '')) {
       data.region_code = cityResponse?.country?.iso_code;
       data.region_name = getNameByLang(cityResponse?.country?.names, lang);
-      data.country_code = 'CN';
-      data.country_name = getNameByLang(CHINA.names, lang);
-      data.registered_region_name =
-        lang === 'zh-cn'
+      data.country_name =
+        lang?.toLowerCase() === 'zh-cn'
+          ? `${getNameByLang(CHINA.names, lang)}${getNameByLang(cityResponse?.country?.names, lang)}`
+          : `${getNameByLang(cityResponse?.country?.names, lang)}, ${getNameByLang(CHINA.names, lang)}`;
+      data.registered_country_name =
+        lang?.toLowerCase() === 'zh-cn'
           ? `${getNameByLang(CHINA.names, lang)}${getNameByLang(cityResponse?.registered_country?.names, lang)}`
           : `${getNameByLang(cityResponse?.registered_country?.names, lang)}, ${getNameByLang(CHINA.names, lang)}`;
     }

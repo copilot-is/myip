@@ -24,7 +24,8 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
     const query = formData.get('query')?.toString();
 
     if (query && (isIP(query) || isFQDN(query))) {
-      const res = await fetch(`/json/${query}`);
+      const lang = navigator.language;
+      const res = await fetch(`/api/${query}${lang ? `?lang=${lang}` : ''}`);
       const json = await res.json();
 
       if (res.ok) {
@@ -182,9 +183,12 @@ export function IPGeoLocation({ defaultValue }: IPGeoLocationProps) {
           </tbody>
         </table>
       )}
-      <div className="mb-6 mt-3 w-full rounded-lg bg-slate-100 p-4 text-slate-800 dark:bg-slate-900 dark:text-slate-400">
-        <p>https://ipmy.dev/json</p>
-        <p>https://ipmy.dev/json/8.8.8.8?lang=en</p>
+      <div className="mt-3 w-full rounded-lg bg-slate-100 p-4 text-slate-800 dark:bg-slate-900 dark:text-slate-400">
+        <code>
+          ipmy.dev/api
+          <br />
+          ipmy.dev/api/8.8.8.8
+        </code>
       </div>
     </div>
   );

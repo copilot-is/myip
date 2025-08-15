@@ -13,8 +13,8 @@ export interface IPGeoLocationData {
   country_name?: string;
   continent_code?: string;
   continent_name?: string;
-  registered_region_code?: string;
-  registered_region_name?: string;
+  registered_country_code?: string;
+  registered_country_name?: string;
   latitude?: number;
   longitude?: number;
   address?: string;
