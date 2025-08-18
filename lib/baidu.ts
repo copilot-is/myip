@@ -102,7 +102,7 @@ const getBaiduDistrictByIP = async (
     if (result && result.code.toLowerCase() === 'success' && result.data) {
       return result.data;
     } else {
-      throw new Error(JSON.stringify(result.code));
+      throw new Error(result.code);
     }
   } catch (error) {
     console.error(error);

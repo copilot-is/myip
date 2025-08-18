@@ -44,14 +44,12 @@ export const maxmindQuery = (
     }
 
     if (['HK', 'MO', 'TW'].includes(cityResponse?.country?.iso_code || '')) {
-      data.region_code = cityResponse?.country?.iso_code;
-      data.region_name = getNameByLang(cityResponse?.country?.names, lang);
       data.country_name =
-        lang?.toLowerCase() === 'zh-cn'
+        lang === 'zh-CN'
           ? `${getNameByLang(CHINA.names, lang)}${getNameByLang(cityResponse?.country?.names, lang)}`
           : `${getNameByLang(cityResponse?.country?.names, lang)}, ${getNameByLang(CHINA.names, lang)}`;
       data.registered_country_name =
-        lang?.toLowerCase() === 'zh-cn'
+        lang === 'zh-CN'
           ? `${getNameByLang(CHINA.names, lang)}${getNameByLang(cityResponse?.registered_country?.names, lang)}`
           : `${getNameByLang(cityResponse?.registered_country?.names, lang)}, ${getNameByLang(CHINA.names, lang)}`;
     }

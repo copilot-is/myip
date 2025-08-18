@@ -37,11 +37,11 @@ export async function GET(
     );
   }
 
-  if (source && !['qqwry', 'baidu', 'meituan'].includes(source)) {
+  if (source && !['qqwry', 'baidu', 'meituan', 'ipapi'].includes(source)) {
     return NextResponse.json(
       {
         error:
-          "Invalid source. Allowed values are 'qqwry' 'baidu' or 'meituan'."
+          "Invalid source. Allowed values are 'qqwry' 'baidu' 'meituan' or 'ipapi'."
       },
       { status: 400 }
     );

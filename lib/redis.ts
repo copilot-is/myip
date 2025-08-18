@@ -11,4 +11,20 @@ redis.on('error', err => {
   console.error('[redis] error:', err);
 });
 
+redis.on('connect', () => {
+  console.log('[redis] Connected to Redis');
+});
+
+redis.on('reconnecting', (delay: number) => {
+  console.log(`[redis] Reconnecting in ${delay}ms`);
+});
+
+redis.on('ready', () => {
+  console.log('[redis] Connection ready');
+});
+
+redis.on('end', () => {
+  console.log('[redis] Connection ended');
+});
+
 export default redis;

@@ -17,7 +17,7 @@ export async function getHostnames(ip: string): Promise<string[]> {
   try {
     hostnames = await dns.promises.reverse(ip);
   } catch (error) {
-    // ignore
+    console.error(error);
   }
 
   return hostnames;
@@ -29,7 +29,7 @@ export async function getDomainAddress(domain: string): Promise<string> {
   try {
     address = (await dns.promises.lookup(domain)).address;
   } catch (error) {
-    // ignore
+    console.error(error);
   }
 
   return address;
@@ -44,4 +44,30 @@ export function pruneObject<T extends Record<string, any>>(obj: T): T {
   );
 
   return prunedData as T;
+}
+
+export function parseASNData(input?: string): { asn?: number; org?: string } {
+  if (!input) {
+    return {};
+  }
+
+  try {
+    const regex = /^(AS\d+)\s+(.+)$/;
+    const match = input.match(regex);
+
+    if (!match) {
+      throw new Error(
+        'Invalid input format. Expected format: AS<digits> <organization>'
+      );
+    }
+
+    return {
+      asn: parseInt(match[1].replace('AS', '')),
+      org: match[2].trim()
+    };
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {};
 }

@@ -24,7 +24,7 @@ export interface IPGeoLocationData {
   org?: string;
   user_agent?: string;
   isEU?: boolean;
-  source: 'maxmind' | 'geocn' | 'qqwry' | 'baidu' | 'meituan';
+  source: 'maxmind' | 'geocn' | 'qqwry' | 'baidu' | 'meituan' | 'ipapi';
   updatedAt?: number;
 }
 
@@ -95,4 +95,29 @@ export interface MeituanLocationResponse {
     detail: string;
     lat: number;
   };
+}
+
+export interface IPAPIResponse {
+  status: 'success' | 'fail';
+  message?: string;
+  continent: string;
+  continentCode: string;
+  country: string;
+  countryCode: string;
+  region: string;
+  regionName: string;
+  city: string;
+  district: string;
+  zip: string;
+  lat: number;
+  lon: number;
+  timezone: string;
+  isp: string;
+  org: string;
+  as: string;
+  reverse: string;
+  mobile: boolean;
+  proxy: boolean;
+  hosting: boolean;
+  query: string;
 }

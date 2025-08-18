@@ -1,6 +1,7 @@
 import { baiduQuery } from '@/lib/baidu';
 import { geocnQuery } from '@/lib/geocn';
-import { CHINA, getNameByLang } from '@/lib/lang';
+import { ipapiQuery } from '@/lib/ip-api';
+import { CHINA, getNameByLang, isSupportedLanguage } from '@/lib/lang';
 import { maxmindQuery } from '@/lib/maxmind';
 import { meituanQuery } from '@/lib/meituan';
 import { qqwryQuery } from '@/lib/qqwry';
@@ -18,7 +19,12 @@ export const IPLookup = async (
     ipAddress = '8.8.8.8';
   }
 
-  let data = maxmindQuery(ipAddress, ua, lang);
+  let language: string | undefined;
+  if (isSupportedLanguage(lang)) {
+    language = lang;
+  }
+
+  let data = maxmindQuery(ipAddress, ua, language);
 
   if (data) {
     const hostnames = await getHostnames(ip);
@@ -31,7 +37,7 @@ export const IPLookup = async (
       data.country_code === 'CN' &&
       data.registered_country_code === 'CN'
     ) {
-      const geocnData = geocnQuery(ipAddress, lang);
+      const geocnData = geocnQuery(ipAddress, language);
       if (geocnData) {
         data = { ...data, ...geocnData };
       }
@@ -48,7 +54,11 @@ export const IPLookup = async (
       }
     }
 
-    if (source === 'baidu') {
+    if (
+      source === 'baidu' &&
+      data.country_code === 'CN' &&
+      data.registered_country_code === 'CN'
+    ) {
       const baiduData = await baiduQuery(ipAddress);
       if (baiduData) {
         data = { ...data, ...baiduData };
@@ -62,8 +72,15 @@ export const IPLookup = async (
       }
     }
 
-    if (data.country_name === '中国' && lang?.toLowerCase() !== 'zh-cn') {
-      data.country_name = getNameByLang(CHINA.names, lang);
+    if (source === 'ipapi') {
+      const ipapiData = await ipapiQuery(ipAddress, language);
+      if (ipapiData) {
+        data = { ...data, ...ipapiData };
+      }
+    }
+
+    if (data.country_name === '中国' && language !== 'zh-CN') {
+      data.country_name = getNameByLang(CHINA.names, language);
     }
   }
 

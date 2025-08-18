@@ -11,6 +11,25 @@ export const CHINA = {
   }
 };
 
+export const isSupportedLanguage = (lang?: string) => {
+  if (!lang) {
+    return false;
+  }
+
+  const supportedLanguages = [
+    'en',
+    'de',
+    'es',
+    'fr',
+    'ja',
+    'ru',
+    'pt-BR',
+    'zh-CN'
+  ];
+
+  return supportedLanguages.includes(lang);
+};
+
 export const getNameByLang = (
   names?: {
     de?: string;
@@ -24,24 +43,16 @@ export const getNameByLang = (
   },
   lang?: string
 ): string | undefined => {
-  switch (lang?.toLowerCase()) {
-    case 'en':
-      return names?.en;
-    case 'de':
-      return names?.de || names?.en;
-    case 'es':
-      return names?.es || names?.en;
-    case 'fr':
-      return names?.fr || names?.en;
-    case 'ja':
-      return names?.ja || names?.en;
-    case 'pt-br':
-      return names?.['pt-BR'] || names?.en;
-    case 'ru':
-      return names?.ru || names?.en;
-    case 'zh-cn':
-      return names?.['zh-CN'] || names?.en;
-    default:
-      return names?.en;
-  }
+  const langMap: Record<string, string | undefined> = {
+    en: names?.en,
+    de: names?.de,
+    es: names?.es,
+    fr: names?.fr,
+    ja: names?.ja,
+    ru: names?.ru,
+    'pt-BR': names?.['pt-BR'],
+    'zh-CN': names?.['zh-CN']
+  };
+
+  return langMap[lang || 'en'] || names?.en;
 };

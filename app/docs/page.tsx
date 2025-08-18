@@ -69,7 +69,7 @@ export default function Page() {
         <li>
           <strong>source</strong> (optional, query parameter): Specifies the
           data source. Allowed values: <code>qqwry</code>, <code>baidu</code>,{' '}
-          <code>meituan</code>.
+          <code>meituan</code>, <code>ipapi</code>.
         </li>
         <li>
           <strong>callback</strong> (optional, query parameter): If provided,
